@@ -1,0 +1,31 @@
+<header>
+    <h1>Welcome to StreamTeam</h1>
+</header>
+<main>
+    <section id="login-form">
+        <form>
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Username">
+            <button id="help-btn">Help</button>
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Password">
+            <button id="login-btn">Log In</button>
+            <button id="create-account-btn">Create Account</button>
+        </form>
+    </section>
+    <div id="help-popup" hidden>
+        <p>User Data:</p>
+        <pre id="user-data"></pre>
+        <button id="close-help-btn" aria-label="Close Help Popup">Close</button>
+    </div>
+    <div id="create-account-popup" hidden>
+        <input type="text" id="new-username" placeholder="New Username">
+        <input type="password" id="new-password" placeholder="New Password">
+        <input type="text" id="first-name" placeholder="First Name">
+        <input type="text" id="last-name" placeholder="Last Name">
+        <button id="save-account-btn">Save Account</button>
+        <button id="close-create-account-btn" aria-label="Close Create Account Popup">Close</button>
+    </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="index.js"></script>

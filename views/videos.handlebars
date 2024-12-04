@@ -1,0 +1,29 @@
+<header>
+    <h1>Video Gallery</h1>
+    <button id="logout-btn">Log Out</button>
+</header>
+<main>
+    <div id="search-bar">
+        <input type="text" id="search-input" placeholder="Search by title or author">
+        <button id="search-btn">Search</button>
+    </div>
+    <button id="post-video-open-btn">Post a Video</button>
+    <div id="post-video-popup" hidden>
+        <div class="popup-content">
+            <h2>Post a New Video</h2>
+            <input type="text" id="video-title" placeholder="Title" required>
+            <input type="text" id="video-poster" placeholder="Poster (Author)" required>
+            <input type="url" id="video-thumbnail" placeholder="Thumbnail URL" required>
+            <input type="number" id="video-length" placeholder="Length (minutes)" step="0.01" required>
+            <button id="post-video-btn">Post Video</button>
+            <button id="close-post-video-btn">Close</button>
+        </div>
+    </div>
+    <div id="video-container" class="flex-container">
+        {{#each videos}}
+            {{> video}}
+        {{/each}}
+    </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="videos.js"></script>
