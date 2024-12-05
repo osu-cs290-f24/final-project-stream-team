@@ -8,7 +8,10 @@ body {
 header {
     background-color: #444;
     color: white;
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 
 main {
@@ -29,7 +32,8 @@ button {
     cursor: pointer;
 }
 
-#help-popup, #create-account-popup {
+#help-popup,
+#create-account-popup {
     border: 1px solid #ccc;
     padding: 20px;
     background: #f9f9f9;
