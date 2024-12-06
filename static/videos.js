@@ -20,6 +20,24 @@ function renderVideos(videoList) {
     });
 }
 
+// Fetch videos from the server
+function loadVideos() {
+    fetch('/videos-data')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return response.json()
+        })
+        .then(data => {
+            videos = data;
+            renderVideos(videos)
+        })
+        .catch(err => {
+            console.error("Failed to load videos:", err)
+        })
+}
+
 // Search videos by title or author
 document.getElementById("search-btn").addEventListener("click", function () {
     const query = document.getElementById("search-input").value.toLowerCase();
@@ -27,12 +45,15 @@ document.getElementById("search-btn").addEventListener("click", function () {
         video.title.toLowerCase().includes(query) || video.poster.toLowerCase().includes(query)
     );
     renderVideos(filteredVideos);
-});
+})
+
+// Load videos on page load
+window.addEventListener("load", loadVideos)
 
 // Logout button to return to index.html
 document.getElementById("logout-btn").addEventListener("click", function () {
     window.location.href = "index.html";
-});
+})
 
 
 function showPopup(popupId) {
