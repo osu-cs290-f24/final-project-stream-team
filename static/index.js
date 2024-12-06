@@ -22,8 +22,8 @@ document.getElementById("login-btn").addEventListener("click", function (event) 
 
     if (user) {
         alert(`Welcome, ${user.first_name} ${user.last_name}!`);
-        // Redirect to videos.html
-        window.location.href = "videos.html";
+        // Redirect to videos page
+        window.location.href = "/videos";
     } else {
         alert("Invalid username or password.");
     }
