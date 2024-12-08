@@ -8,12 +8,18 @@ function renderVideos(videoList) {
     videoList.forEach(video => {
         const videoPost = document.createElement("div");
         videoPost.className = "video-post";
+        var videoLength = video.length
+        var minutes = Math.floor(videoLength)
+        var seconds = Math.round((videoLength - minutes) * 60)
+        if(seconds < 10){
+            seconds =  "0" + seconds
+        }
 
         videoPost.innerHTML = `
             <img src="${video.thumbnail}" alt="${video.title}">
             <h3>${video.title}</h3>
             <p>By: ${video.poster}</p>
-            <p>Length: ${video.length} minutes</p>
+            <p>Length: ${minutes}:${seconds}</p>
         `;
 
         container.appendChild(videoPost);
