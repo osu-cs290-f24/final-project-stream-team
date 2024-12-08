@@ -45,7 +45,7 @@ header button:active {
 /* Index Page Styles */
 main {
     margin: 20px auto;
-    width: 300px;
+    width: 100%;
     text-align: center;
 }
 
