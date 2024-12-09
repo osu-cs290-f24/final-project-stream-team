@@ -103,6 +103,57 @@ app.get('/videos/:n', function (req, res) { //not sure if most of this is the ri
     })
 })
 
+// get user data in logins
+app.get('/users-data', function (req, res) {
+    const filePath = path.join(__dirname, 'static/users.json');
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error("Error reading JSON file:", err);
+            res.status(500).json({ error: "Failed to load users" });
+            return;
+        }
+
+        const users = JSON.parse(data);
+        res.json(users); // Send user data as JSON
+    });
+});
+
+
+// Add POST endpoint to save new users
+app.post('/add-user', function (req, res) {
+    const newUser = req.body; // Extract user data from request body
+    const filePath = path.join(__dirname, 'static/users.json')
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error("Error reading JSON file:", err)
+            res.status(500).json({ error: "Failed to read user data." })
+            return
+        }
+
+        let users = JSON.parse(data)
+        const isDuplicate = users.some(u => u.username === newUser.username)
+
+        if (isDuplicate) {
+            res.status(400).json({ error: "Username already exists." })
+            return
+        }
+
+        users.push(newUser)
+
+        fs.writeFile(filePath, JSON.stringify(users, null, 2), (err) => {
+            if (err) {
+                console.error("Error writing JSON file:", err);
+                res.status(500).json({ error: "Failed to save user." })
+                return;
+            }
+
+            console.log("New user added:", newUser);
+            res.status(200).json({ message: "User added successfully!" })
+        })
+    })
+})
+
 // New POST route to save videos
 app.post('/add-video', function (req, res) {
     const newVideo = req.body // Extract video data from request body

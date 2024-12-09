@@ -35,7 +35,7 @@ document.getElementById("help-btn").addEventListener("click", function (event) {
 
     const userData = users.map((user) =>
         `Username: ${user.username}, Password: ${user.password}, Name: ${user.first_name} ${user.last_name}`
-        ).join("\n");
+    ).join("\n");
 
     document.getElementById("user-data").textContent = userData;
     showPopup("help-popup");
@@ -52,13 +52,13 @@ document.getElementById("create-account-btn").addEventListener("click", function
 });
 
 document.getElementById("close-create-account-btn").addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent form submission
-        hidePopup("create-account-popup");
-    });
+    event.preventDefault(); // Prevent form submission
+    hidePopup("create-account-popup");
+});
 
 // Event listener for saving a new account
 document.getElementById("save-account-btn").addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault();
 
     const newUser = {
         username: document.getElementById("new-username").value.trim(),
@@ -73,16 +73,71 @@ document.getElementById("save-account-btn").addEventListener("click", function (
         newUser.first_name &&
         newUser.last_name
     ) {
-        const isDuplicate = users.some((u) => u.username === newUser.username);
-
-        if (isDuplicate) {
-            alert("Username already exists. Please choose another.");
-        } else {
-            users.push(newUser);
-            alert("Account created successfully!");
-            hidePopup("create-account-popup");
-        }
+        fetch('/add-user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to save user.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+                // hidePopup("create-account-popup");
+                window.location.href = "/videos"
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error: Username may already exist or server error occurred.");
+            });
     } else {
         alert("Please fill all fields.");
+    }
+});
+
+// Fetch user data on page load
+function loadUsers() {
+    fetch('/users-data')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            users = data;
+            console.log("Users loaded:", users);
+        })
+        .catch(err => {
+            console.error("Failed to load users:", err);
+        });
+}
+
+
+// Call loadUsers on page load
+window.addEventListener("load", loadUsers);
+
+// Event listener for login
+document.getElementById("login-btn").addEventListener("click", function (event) {
+    event.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    const user = users.find(
+        (u) => u.username === username && u.password === password
+    );
+
+    if (user) {
+        alert(`Welcome, ${user.first_name} ${user.last_name}!`);
+        // Redirect to videos page
+        window.location.href = "/videos";
+    } else {
+        alert("Invalid username or password.");
     }
 });
