@@ -1,3 +1,4 @@
+/* Global Styles */
 body {
     font-family: Roboto, sans-serif;
     margin: 0;
@@ -7,15 +8,24 @@ body {
 header {
     background-color: #202020;
     color: white;
-    padding: 10px 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 0px;
+    padding-bottom: 0px;
     text-align: center;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 80px;
 }
 
 header h1 {
     margin: 0;
+}
+
+#home-link {
+    color: white;
+    text-decoration: none;
 }
 
 header button {
@@ -27,11 +37,130 @@ header button {
     border-radius: 5px;
 }
 
+header button:hover {
+    color: #c71e12;
+    background-color: white;
+    transition: 0.2s;
+}
+
+header button:active {
+    font-size: 75%;
+}
+
+/* Index Page Styles */
 main {
+    /* display: flex; */
+    margin: 20px auto;
+    width: 100%;
+    text-align: center;
+}
+
+input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 90%;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#broken-tv {
+    padding: inherit;
+    margin: auto;
+    width: 500px;
+    display: block;
+
+
+}
+
+#help-popup,
+#create-account-popup {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background: #f9f9f9;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+pre {
+    text-align: left;
+    margin: 0 auto;
+    width: 90%;
+}
+
+[hidden] {
+    display: none;
+}
+
+/* Videos Page Styles */
+#search-bar {
+    margin: 20px auto;
+    text-align: center;
     display: flex;
+}
+
+#search-input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#search-btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #37addb;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+
+#search-btn:hover {
+    color: #37addb;
+    background-color: white;
+    transition: 0.2s;
+}
+
+#search-btn:active {
+    font-size: 75%;
+}
+
+main {
+    display: inline;
     flex-wrap: wrap;
     padding: 20px;
     gap: 20px;
+}
+
+#main-container {
+    display: flex;
+    /* Set flexbox for horizontal alignment */
+    justify-content: space-between;
+    /* Space between main video and recommendations */
+    align-items: flex-start;
+    /* Align items at the top */
+    margin: 20px auto;
+    /* Center the layout */
+    width: 90%;
+    /* Adjust the width to fit the content */
+    gap: 20px;
+    /* Add spacing between main video and recommendations */
+}
+
+#main-vid {
+    flex: 3;
+    /* Main video takes 3 parts of the available space */
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #video-details-container {
@@ -70,6 +199,7 @@ main {
 }
 
 #other-videos {
+    flex: 1;
     width: 30%;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -106,4 +236,29 @@ main {
 .video-post h3 {
     margin: 10px 0;
     font-size: 1em;
+}
+
+/* Individual recommended video posts */
+.rec-video-post {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for images inside recommended videos */
+.rec-video-post img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Styling for titles inside recommended videos */
+.rec-video-post h3 {
+    margin: 10px 0;
+    font-size: 1em;
+    font-weight: bold;
+    color: #333;
 }
