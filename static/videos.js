@@ -2,15 +2,15 @@ let videos = [];
 
 // Render videos dynamically
 function renderVideos(videoList) {
-    const container = document.getElementById("video-container");
-    container.textContent = ""; // Clear the container securely
+    const container = document.getElementById("video-container")
+    container.textContent = "" // Clear the container securely
 
     videoList.forEach(video => {
-        // Calculate video length (minutes and seconds)
-        const minutes = Math.floor(video.length);
-        const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0");
+        //calculates minutes and seconds
+        const minutes = Math.floor(video.length)
+        const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0")
 
-        // Use the Handlebars template to generate HTML for each video
+        //uses the Handlebars template to generate HTML for each video
         const videoHTML = Handlebars.templates.video({
             photoURL: video.thumbnail,
             alt: video.title,
@@ -20,8 +20,8 @@ function renderVideos(videoList) {
             seconds: seconds
         });
 
-        // Append the generated HTML to the container
-        container.insertAdjacentHTML("beforeend", videoHTML);
+        //appends the generated HTML to the container
+        container.insertAdjacentHTML("beforeend", videoHTML)
     });
 }
 
