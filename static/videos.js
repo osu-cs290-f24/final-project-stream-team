@@ -11,8 +11,8 @@ function renderVideos(videoList) {
         var videoLength = video.length
         var minutes = Math.floor(videoLength)
         var seconds = Math.round((videoLength - minutes) * 60)
-        if(seconds < 10){
-            seconds =  "0" + seconds
+        if (seconds < 10) {
+            seconds = "0" + seconds
         }
 
         /*videoPost.innerHTML = `
@@ -91,13 +91,16 @@ document.getElementById("close-post-video-btn").addEventListener("click", functi
     hidePopup("post-video-popup");
 });
 
+//Post a new video Event Listener
+document.getElementById("post-video-btn").addEventListener("click", postVideo)
+
 // Post a new video
 function postVideo() {
     // Get input values
-    const title = document.getElementById("video-title").value.trim();
-    const poster = document.getElementById("video-poster").value.trim();
-    const thumbnail = document.getElementById("video-thumbnail").value.trim();
-    const length = parseFloat(document.getElementById("video-length").value);
+    const title = document.getElementById("video-title").value.trim()
+    const poster = document.getElementById("video-poster").value.trim()
+    const thumbnail = document.getElementById("video-thumbnail").value.trim()
+    const length = parseFloat(document.getElementById("video-length").value)
 
     // Validate inputs
     if (!title || !poster || !thumbnail || isNaN(length)) {
@@ -113,20 +116,37 @@ function postVideo() {
         length: length.toFixed(2), // Ensure consistent format for length
     };
 
-    // Add new video to the array
-    videos.push(newVideo);
+    // Send video data to the server
+    fetch('/add-video', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newVideo),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data.message);
+            alert("Video posted successfully!");
 
-    // Re-render videos
-    renderVideos(videos);
+            // Add the new video to the local array and re-render
+            videos.push(newVideo);
+            renderVideos(videos);
 
-    // Clear form fields
-    document.getElementById("video-title").value = "";
-    document.getElementById("video-poster").value = "";
-    document.getElementById("video-thumbnail").value = "";
-    document.getElementById("video-length").value = "";
-
-    alert("Video posted successfully!");
-
-    // Close the popup
-    hidePopup("post-video-popup");
+            // Clear form fields and close the popup
+            document.getElementById("video-title").value = "";
+            document.getElementById("video-poster").value = "";
+            document.getElementById("video-thumbnail").value = "";
+            document.getElementById("video-length").value = "";
+            hidePopup("post-video-popup");
+        })
+        .catch(err => {
+            console.error("Failed to post video:", err);
+            alert("Failed to post video. Please try again.");
+        });
 }
