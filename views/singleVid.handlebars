@@ -1,23 +1,17 @@
-<header>
-    <h1>Video Details</h1>
-    <button id="back-btn">Back to Gallery</button>
-</header>
-<main>
-    <div id="main-vid">{{> video video}}</div>
+{{> header}}
+
+<div id="main-container">
+    <main id="main-vid">
+        {{> video video}}
+    </main>
     <aside id="other-videos">
         <h3>Other Videos</h3>
         <div id="other-videos-flex">
             {{#each videoList}}
-                {{!-- <div class="video-post"> --}}
-                    {{> video}}
-                {{!-- </div> --}}
+            <div class="rec-video-post">
+                {{> video}}
+            </div>
             {{/each}}
         </div>
     </aside>
-</main>
-
-<script>
-    var videoData = {{{json video}}};
-    var recommendedVideos = {{{json videoList}}};
-</script>
-{{!might need to add singleVid.js to this}}
+</div>

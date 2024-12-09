@@ -23,6 +23,11 @@ header h1 {
     margin: 0;
 }
 
+#home-link {
+    color: white;
+    text-decoration: none;
+}
+
 header button {
     padding: 10px 20px;
     cursor: pointer;
@@ -44,6 +49,7 @@ header button:active {
 
 /* Index Page Styles */
 main {
+    /* display: flex; */
     margin: 20px auto;
     width: 100%;
     text-align: center;
@@ -150,6 +156,7 @@ div#video-container {
     border-radius: 10px;
     padding: 15px;
     width: 300px;
+    height: 350px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
@@ -161,9 +168,17 @@ div#video-container {
     cursor: pointer;
 }
 
+/* .post-img {
+    height: 50px;
+} */
+
 .video-post img {
-    max-width: 100%;
+
+    width: 268px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 5px;
+
 }
 
 .video-post h3 {

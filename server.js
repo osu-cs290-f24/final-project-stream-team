@@ -71,46 +71,68 @@ app.get('/videos', function (req, res) {
     })
 })
 
-app.get('/videos/:n', function (req, res) { //not sure if most of this is the right way to do it
-    var filePath = path.join(__dirname, 'static/videos.json')
+
+// get single page video and reccomendations
+app.get('/videos/:n', function (req, res) {
+    const filePath = path.join(__dirname, 'static/videos.json');
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
-            console.log('Error reading JSON file: ', err)
-            res.status(500).send("Error loading videos.")
-            return
+            console.error('Error reading JSON file:', err);
+            res.status(500).send('Error loading videos.');
+            return;
         }
 
-        const videos = JSON.parse(data)
-        let videoList = []
-        var vidNum = parseInt(req.params.n, 10)
+        const videos = JSON.parse(data);
+        const vidNum = parseInt(req.params.n, 10);
 
+        // Validate that the requested video index is valid
         if (vidNum >= 0 && vidNum < videos.length) {
-            //gets recommended videos, just uses the next two in the list
-            var vidNum2 = (vidNum + 1) % videos.length
-            var vidNum3 = (vidNum2 + 1) % videos.length
-            console.log(vidNum)
-            console.log(vidNum2)
-            console.log(vidNum3)
+            const video = videos[vidNum];
 
+            // Add calculated fields to the video
+            const videoLength = video.length;
+            const minutes = Math.floor(videoLength);
+            const seconds = Math.round((videoLength - minutes) * 60).toString().padStart(2, "0");
+            video.minutes = minutes;
+            video.seconds = seconds;
+            video.name = video.poster
+            video.photoURL = video.thumbnail;
 
-            videoList.push(videos[vidNum2])
-            videoList.push(videos[vidNum3])
+            // Generate a list of recommended videos
+            const videoList = [];
+            for (let i = 1; i <= 2; i++) {
+                const nextIndex = (vidNum + i) % videos.length;
+                const recommendedVideo = { ...videos[nextIndex] };
 
-            res.render('singleVid', { //not sure if this is right at all
-                title: 'Single Video',
+                // Calculate and add minutes/seconds for recommended videos
+                const recommendedLength = recommendedVideo.length;
+                const recommendedMinutes = Math.floor(recommendedLength);
+                const recommendedSeconds = Math.round((recommendedLength - recommendedMinutes) * 60).toString().padStart(2, "0");
+                recommendedVideo.minutes = recommendedMinutes;
+                recommendedVideo.seconds = recommendedSeconds;
+                recommendedVideo.name = recommendedVideo.poster;
+                recommendedVideo.photoURL = recommendedVideo.thumbnail;
+
+                videoList.push(recommendedVideo);
+            }
+
+            // Render the singleVid template with the selected video and recommendations
+            res.render('singleVid', {
+                title: video.title,
                 css: '/single_video.css',
-                video: videos[vidNum], //for the single video
-                videoList: videoList //for the recommended videos
-            })
-        }
-        else {
+                video: video,
+                videoList: videoList,
+            });
+        } else {
             res.status(404).render('404', {
-                title: "404 - Page Not Found",
-                css: "/styles.css"
-            })
+                title: '404 - Page Not Found',
+                css: '/styles.css',
+            });
         }
-    })
-})
+    });
+});
+
+
 
 // get user data in logins
 app.get('/users-data', function (req, res) {
