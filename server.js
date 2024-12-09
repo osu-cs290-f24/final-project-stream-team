@@ -18,6 +18,8 @@ app.use(express.static(path.join(__dirname, 'static')))
 
 //app.use(express.static('static'))\
 
+
+
 app.get('/', function (req, res) {
     res.render('index', {
         title: 'Video Gallery',
@@ -55,6 +57,47 @@ app.get('/videos', function (req, res) {
             css: '/styles.css',
             videos
         })
+    })
+})
+
+app.get('/videos/:n', function (req, res) { //not sure if most of this is the right way to do it
+    var filePath = path.join(__dirname, 'static/videos.json')
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.log('Error reading JSON file: ', err)
+            res.status(500).send("Error loading videos.")
+            return
+        }
+
+        const videos = JSON.parse(data)
+        let videoList = []
+        var vidNum = parseInt(req.params.n, 10)
+
+        if(vidNum >= 0 && vidNum < videos.length){
+            //gets recommended videos, just uses the next two in the list
+            var vidNum2 = (vidNum + 1) % videos.length
+            var vidNum3 = (vidNum2 + 1) % videos.length
+            console.log(vidNum)
+            console.log(vidNum2)
+            console.log(vidNum3)
+
+            
+            videoList.push(videos[vidNum2])
+            videoList.push(videos[vidNum3])
+
+            res.render('singleVid', { //not sure if this is right at all
+                title: 'Single Video',
+                css: '/single_video.css',
+                video: videos[vidNum], //for the single video
+                videoList: videoList //for the recommended videos
+            })
+        }
+        else{
+            res.status(404).render('404', {
+                title: "404 - Page Not Found",
+                css: "/styles.css"
+            })
+        }
     })
 })
 
