@@ -3,14 +3,13 @@ let videos = [];
 // Render videos dynamically
 function renderVideos(videoList) {
     const container = document.getElementById("video-container");
-    container.textContent = ""; // Clear the container securely
+    container.innerHTML = "";
 
-    videoList.forEach((video, index) => {
-        // Calculates minutes and seconds
+    videoList.forEach((video) => {
         const minutes = Math.floor(video.length);
         const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0");
 
-        // Uses the Handlebars template to generate HTML for each video
+        // Use the video's originalIndex to maintain a stable ID
         const videoHTML = Handlebars.templates.video({
             photoURL: video.thumbnail,
             alt: video.title,
@@ -18,28 +17,33 @@ function renderVideos(videoList) {
             name: video.poster,
             minutes: minutes,
             seconds: seconds,
+            index: video.originalIndex // pass originalIndex instead of 'i'
         });
 
-        // Appends the generated HTML to the container
         container.insertAdjacentHTML("beforeend", videoHTML);
     });
 
-    // Attach click event listeners to all video posts
     const videoPosts = document.querySelectorAll(".video-post");
-    videoPosts.forEach((post, index) => {
-        post.addEventListener("click", () => {
-            // Redirect to the single video page with the corresponding index
-            window.location.href = `/videos/${index}`;
+    videoPosts.forEach((post) => {
+        post.addEventListener("click", function () {
+            const videoId = this.getAttribute("data-id");
+            if (videoId) {
+                window.location.href = `/videos/${videoId}`;
+            }
         });
     });
 }
+
+
+
+
 
 
 // Format video length as MM:SS
 function formatVideoLength(videoLength) {
     const minutes = Math.floor(videoLength);
     const seconds = Math.round((videoLength - minutes) * 60).toString().padStart(2, "0");
-    return `${minutes}:${seconds}`;
+    return `${minutes}:${seconds} `;
 }
 
 
@@ -47,19 +51,22 @@ function formatVideoLength(videoLength) {
 function loadVideos() {
     fetch("/videos-data")
         .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             return response.json();
         })
         .then((data) => {
-            videos = data;
+            // Map each video to store its original index
+            videos = data.map((video, i) => {
+                return { ...video, originalIndex: i };
+            });
             renderVideos(videos);
         })
         .catch((err) => {
             console.error("Failed to load videos:", err);
         });
 }
+
+
 
 // Post a new video
 function postVideo() {
@@ -93,7 +100,7 @@ function postVideo() {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status} `);
             }
             return response.json();
         })
@@ -121,11 +128,13 @@ function postVideo() {
 // Search videos by title or author
 document.getElementById("search-btn").addEventListener("click", function () {
     const query = document.getElementById("search-input").value.toLowerCase();
-    const filteredVideos = videos.filter(video =>
-        video.title.toLowerCase().includes(query) || video.poster.toLowerCase().includes(query)
+    const filteredVideos = videos.filter((video) =>
+        video.title.toLowerCase().includes(query) ||
+        video.poster.toLowerCase().includes(query)
     );
-    renderVideos(filteredVideos);
-})
+    renderVideos(filteredVideos); // This properly clears and re-renders filtered videos
+});
+
 
 // Load videos on page load
 window.addEventListener("load", loadVideos)
@@ -161,7 +170,8 @@ document.getElementById("post-video-btn").addEventListener("click", postVideo)
 Array.from(videoPosts).forEach(videoPost => {
     videoPost.addEventListener('click', function () {
         const videoId = this.getAttribute('data-video-id');
-        window.location.href = `/videos/1}`;
+        window.location.href = `/ videos / 1
+    }`;
     });
 });*/
 
