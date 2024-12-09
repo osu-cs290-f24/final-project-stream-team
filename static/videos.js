@@ -5,42 +5,33 @@ function renderVideos(videoList) {
     const container = document.getElementById("video-container");
     container.textContent = ""; // Clear the container securely
 
-    var i = 0;
-    videoList.forEach(video => {
+    videoList.forEach((video, index) => {
         // Calculates minutes and seconds
         const minutes = Math.floor(video.length);
         const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0");
 
         // Uses the Handlebars template to generate HTML for each video
         const videoHTML = Handlebars.templates.video({
-            videoId: i,
             photoURL: video.thumbnail,
             alt: video.title,
             title: video.title,
             name: video.poster,
             minutes: minutes,
-            seconds: seconds
+            seconds: seconds,
         });
 
         // Appends the generated HTML to the container
         container.insertAdjacentHTML("beforeend", videoHTML);
-        i++
     });
 
-    // Add click event listeners to each video element after rendering
-    const videoPosts = document.querySelectorAll('.video-post');
-    if (videoPosts.length === 0) {
-        console.log('No video posts found.');
-    } 
-    else {
-        videoPosts.forEach(video => {
-            console.log('video post found');
-            video.addEventListener('click', function () {
-                const videoId = video.getAttribute('data-video-id');
-                window.location.href = `/videos/${videoId}`;
-            });
+    // Attach click event listeners to all video posts
+    const videoPosts = document.querySelectorAll(".video-post");
+    videoPosts.forEach((post, index) => {
+        post.addEventListener("click", () => {
+            // Redirect to the single video page with the corresponding index
+            window.location.href = `/videos/${index}`;
         });
-    }
+    });
 }
 
 
@@ -54,20 +45,20 @@ function formatVideoLength(videoLength) {
 
 // Fetch videos from the server
 function loadVideos() {
-    fetch('/videos-data')
-        .then(response => {
+    fetch("/videos-data")
+        .then((response) => {
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`)
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.json()
+            return response.json();
         })
-        .then(data => {
+        .then((data) => {
             videos = data;
-            renderVideos(videos)
+            renderVideos(videos);
         })
-        .catch(err => {
-            console.error("Failed to load videos:", err)
-        })
+        .catch((err) => {
+            console.error("Failed to load videos:", err);
+        });
 }
 
 // Post a new video
