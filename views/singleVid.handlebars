@@ -1,13 +1,23 @@
+<<<<<<< HEAD
 {{> header}}
 
 <div id="main-container">
     <main id="main-vid">
         {{> video video}}
     </main>
+=======
+<header>
+    <h1>Video Details</h1>
+    <button id="back-btn">Back to Gallery</button>
+</header>
+<main>
+    <div id="main-vid">{{> video video}}</div>
+>>>>>>> 0c6928e258d4c6875f0d1d4d2ce5a15bb32f9583
     <aside id="other-videos">
         <h3>Other Videos</h3>
-        <div class="other-videos-flex">
+        <div id="other-videos-flex">
             {{#each videoList}}
+<<<<<<< HEAD
             <div class="rec-video-post">
                 {{> video}}
             </div>
@@ -15,3 +25,18 @@
         </div>
     </aside>
 </div>
+=======
+                {{!-- <div class="video-post"> --}}
+                    {{> video}}
+                {{!-- </div> --}}
+            {{/each}}
+        </div>
+    </aside>
+</main>
+
+<script>
+    var videoData = {{{json video}}};
+    var recommendedVideos = {{{json videoList}}};
+</script>
+{{!might need to add singleVid.js to this}}
+>>>>>>> 0c6928e258d4c6875f0d1d4d2ce5a15bb32f9583

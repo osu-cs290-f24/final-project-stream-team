@@ -9,11 +9,20 @@ app.use(express.json())
 
 var port = process.env.PORT || 3000
 
+const hbs = exphbs.create({
+    defaultLayout: 'main',
+    helpers: {
+        json: function (context) {
+            return JSON.stringify(context)
+        }
+    }
+})
 
+app.engine('handlebars', hbs.engine)
 // set up handlebars
-app.engine("handlebars", exphbs.engine({
+/*app.engine("handlebars", exphbs.engine({
     defaultLayout: "main"
-}))
+}))*/
 app.set("view engine", "handlebars")
 
 app.use(express.static(path.join(__dirname, 'static')))
