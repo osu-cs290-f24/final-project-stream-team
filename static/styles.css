@@ -130,7 +130,7 @@ div#video-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 20px;
     box-sizing: border-box;
 }
@@ -153,6 +153,12 @@ div#video-container {
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
+}
+
+.video-post:hover {
+    background-color: #eeeeee;
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
 .video-post img {
