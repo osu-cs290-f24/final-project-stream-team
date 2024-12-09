@@ -70,37 +70,31 @@ function loadVideos() {
 
 // Post a new video
 function postVideo() {
-    // Get input values
     const title = document.getElementById("video-title").value.trim();
     const poster = document.getElementById("video-poster").value.trim();
     const thumbnail = document.getElementById("video-thumbnail").value.trim();
     const length = parseFloat(document.getElementById("video-length").value);
 
-    // Validate inputs
     if (!title || !poster || !thumbnail || isNaN(length)) {
         alert("Please fill in all fields with valid values.");
         return;
     }
 
-    // Create new video object
     const newVideo = {
         title,
         poster,
         thumbnail,
-        length: length.toFixed(2) // Ensure consistent format for length
+        length: length.toFixed(2)
     };
 
-    // Send video data to the server
     fetch('/add-video', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newVideo),
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status} `);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
@@ -108,9 +102,11 @@ function postVideo() {
             console.log(data.message);
             alert("Video posted successfully!");
 
-            // Add the new video to the local array and re-render
-            videos.push(newVideo);
-            renderVideos(videos);
+            // Check if we are on the main page with a gallery
+            if (window.location.pathname === "/videos") {
+                videos.push(newVideo);
+                renderVideos(videos);
+            }
 
             // Clear form fields and close the popup
             document.getElementById("video-title").value = "";
@@ -124,6 +120,7 @@ function postVideo() {
             alert("Failed to post video. Please try again.");
         });
 }
+
 
 // Search videos by title or author
 document.getElementById("search-btn").addEventListener("click", function () {
