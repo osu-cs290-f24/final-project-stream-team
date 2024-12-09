@@ -1,0 +1,17 @@
+<header>
+    <h1>Video Details</h1>
+    <button id="back-btn">Back to Gallery</button>
+</header>
+<main id="main-vid">
+    {{> video video}}
+    <aside id="other-videos">
+        <h3>Other Videos</h3>
+        <div class="other-videos-flex">
+            {{#each videoList}}
+                <div class="video-post">
+                    {{> video}}
+                </div>
+            {{/each}}
+        </div>
+    </aside>
+</main>
