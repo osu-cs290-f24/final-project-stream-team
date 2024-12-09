@@ -3,39 +3,36 @@ let videos = [];
 // Render videos dynamically
 function renderVideos(videoList) {
     const container = document.getElementById("video-container");
-    container.innerHTML = "";
+    container.textContent = ""; // Clear the container securely
 
     videoList.forEach(video => {
-        const videoPost = document.createElement("div");
-        videoPost.className = "video-post";
-        var videoLength = video.length
-        var minutes = Math.floor(videoLength)
-        var seconds = Math.round((videoLength - minutes) * 60)
-        if (seconds < 10) {
-            seconds = "0" + seconds
-        }
+        // Calculate video length (minutes and seconds)
+        const minutes = Math.floor(video.length);
+        const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0");
 
-        /*videoPost.innerHTML = `
-            <img src="${video.thumbnail}" alt="${video.title}">
-            <h3>${video.title}</h3>
-            <p>By: ${video.poster}</p>
-            <p>Length: ${minutes}:${seconds}</p>
-        `;
-
-        container.appendChild(videoPost);*/
-
-        var videoTemplate = Handlebars.templates.video({
+        // Use the Handlebars template to generate HTML for each video
+        const videoHTML = Handlebars.templates.video({
             photoURL: video.thumbnail,
             alt: video.title,
             title: video.title,
             name: video.poster,
             minutes: minutes,
             seconds: seconds
-        })
+        });
 
-        container.insertAdjacentHTML("beforeend", videoTemplate)
+        // Append the generated HTML to the container
+        container.insertAdjacentHTML("beforeend", videoHTML);
     });
 }
+
+
+// Format video length as MM:SS
+function formatVideoLength(videoLength) {
+    const minutes = Math.floor(videoLength);
+    const seconds = Math.round((videoLength - minutes) * 60).toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+}
+
 
 // Fetch videos from the server
 function loadVideos() {
@@ -53,6 +50,63 @@ function loadVideos() {
         .catch(err => {
             console.error("Failed to load videos:", err)
         })
+}
+
+// Post a new video
+function postVideo() {
+    // Get input values
+    const title = document.getElementById("video-title").value.trim();
+    const poster = document.getElementById("video-poster").value.trim();
+    const thumbnail = document.getElementById("video-thumbnail").value.trim();
+    const length = parseFloat(document.getElementById("video-length").value);
+
+    // Validate inputs
+    if (!title || !poster || !thumbnail || isNaN(length)) {
+        alert("Please fill in all fields with valid values.");
+        return;
+    }
+
+    // Create new video object
+    const newVideo = {
+        title,
+        poster,
+        thumbnail,
+        length: length.toFixed(2) // Ensure consistent format for length
+    };
+
+    // Send video data to the server
+    fetch('/add-video', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newVideo),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data.message);
+            alert("Video posted successfully!");
+
+            // Add the new video to the local array and re-render
+            videos.push(newVideo);
+            renderVideos(videos);
+
+            // Clear form fields and close the popup
+            document.getElementById("video-title").value = "";
+            document.getElementById("video-poster").value = "";
+            document.getElementById("video-thumbnail").value = "";
+            document.getElementById("video-length").value = "";
+            hidePopup("post-video-popup");
+        })
+        .catch(err => {
+            console.error("Failed to post video:", err);
+            alert("Failed to post video. Please try again.");
+        });
 }
 
 // Search videos by title or author
@@ -93,60 +147,3 @@ document.getElementById("close-post-video-btn").addEventListener("click", functi
 
 //Post a new video Event Listener
 document.getElementById("post-video-btn").addEventListener("click", postVideo)
-
-// Post a new video
-function postVideo() {
-    // Get input values
-    const title = document.getElementById("video-title").value.trim()
-    const poster = document.getElementById("video-poster").value.trim()
-    const thumbnail = document.getElementById("video-thumbnail").value.trim()
-    const length = parseFloat(document.getElementById("video-length").value)
-
-    // Validate inputs
-    if (!title || !poster || !thumbnail || isNaN(length)) {
-        alert("Please fill in all fields with valid values.");
-        return;
-    }
-
-    // Create new video object
-    const newVideo = {
-        title,
-        poster,
-        thumbnail,
-        length: length.toFixed(2), // Ensure consistent format for length
-    };
-
-    // Send video data to the server
-    fetch('/add-video', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newVideo),
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data.message);
-            alert("Video posted successfully!");
-
-            // Add the new video to the local array and re-render
-            videos.push(newVideo);
-            renderVideos(videos);
-
-            // Clear form fields and close the popup
-            document.getElementById("video-title").value = "";
-            document.getElementById("video-poster").value = "";
-            document.getElementById("video-thumbnail").value = "";
-            document.getElementById("video-length").value = "";
-            hidePopup("post-video-popup");
-        })
-        .catch(err => {
-            console.error("Failed to post video:", err);
-            alert("Failed to post video. Please try again.");
-        });
-}
