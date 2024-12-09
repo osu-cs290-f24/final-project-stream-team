@@ -8,7 +8,9 @@ templates['video'] = template({"compiler":[8,">= 4.3.0"],"main":function(contain
         return undefined
     };
 
-  return "<div class=\"video-post\">\n    <img src=\""
+  return "<div class=\"video-post\" data-video-id=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"videoId") || (depth0 != null ? lookupProperty(depth0,"videoId") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"videoId","hash":{},"data":data,"loc":{"start":{"line":1,"column":39},"end":{"line":1,"column":50}}}) : helper)))
+    + "\"\">\n    <img src=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"photoURL") || (depth0 != null ? lookupProperty(depth0,"photoURL") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"photoURL","hash":{},"data":data,"loc":{"start":{"line":2,"column":14},"end":{"line":2,"column":26}}}) : helper)))
     + "\" alt=\""
     + alias4(((helper = (helper = lookupProperty(helpers,"title") || (depth0 != null ? lookupProperty(depth0,"title") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data,"loc":{"start":{"line":2,"column":33},"end":{"line":2,"column":42}}}) : helper)))

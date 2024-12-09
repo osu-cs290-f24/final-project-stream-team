@@ -2,16 +2,18 @@ let videos = [];
 
 // Render videos dynamically
 function renderVideos(videoList) {
-    const container = document.getElementById("video-container")
-    container.textContent = "" // Clear the container securely
+    const container = document.getElementById("video-container");
+    container.textContent = ""; // Clear the container securely
 
+    var i = 0;
     videoList.forEach(video => {
-        //calculates minutes and seconds
-        const minutes = Math.floor(video.length)
-        const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0")
+        // Calculates minutes and seconds
+        const minutes = Math.floor(video.length);
+        const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0");
 
-        //uses the Handlebars template to generate HTML for each video
+        // Uses the Handlebars template to generate HTML for each video
         const videoHTML = Handlebars.templates.video({
+            videoId: i,
             photoURL: video.thumbnail,
             alt: video.title,
             title: video.title,
@@ -20,9 +22,25 @@ function renderVideos(videoList) {
             seconds: seconds
         });
 
-        //appends the generated HTML to the container
-        container.insertAdjacentHTML("beforeend", videoHTML)
+        // Appends the generated HTML to the container
+        container.insertAdjacentHTML("beforeend", videoHTML);
+        i++
     });
+
+    // Add click event listeners to each video element after rendering
+    const videoPosts = document.querySelectorAll('.video-post');
+    if (videoPosts.length === 0) {
+        console.log('No video posts found.');
+    } 
+    else {
+        videoPosts.forEach(video => {
+            console.log('video post found');
+            video.addEventListener('click', function () {
+                const videoId = video.getAttribute('data-video-id');
+                window.location.href = `/videos/${videoId}`;
+            });
+        });
+    }
 }
 
 
@@ -147,3 +165,12 @@ document.getElementById("close-post-video-btn").addEventListener("click", functi
 
 //Post a new video Event Listener
 document.getElementById("post-video-btn").addEventListener("click", postVideo)
+
+/*const videoPosts = container.getElementsByClassName('video-post');
+Array.from(videoPosts).forEach(videoPost => {
+    videoPost.addEventListener('click', function () {
+        const videoId = this.getAttribute('data-video-id');
+        window.location.href = `/videos/1}`;
+    });
+});*/
+
