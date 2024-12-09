@@ -15,14 +15,25 @@ function renderVideos(videoList) {
             seconds =  "0" + seconds
         }
 
-        videoPost.innerHTML = `
+        /*videoPost.innerHTML = `
             <img src="${video.thumbnail}" alt="${video.title}">
             <h3>${video.title}</h3>
             <p>By: ${video.poster}</p>
             <p>Length: ${minutes}:${seconds}</p>
         `;
 
-        container.appendChild(videoPost);
+        container.appendChild(videoPost);*/
+
+        var videoTemplate = Handlebars.templates.video({
+            photoURL: video.thumbnail,
+            alt: video.title,
+            title: video.title,
+            name: video.poster,
+            minutes: minutes,
+            seconds: seconds
+        })
+
+        container.insertAdjacentHTML("beforeend", videoTemplate)
     });
 }
 
@@ -58,7 +69,7 @@ window.addEventListener("load", loadVideos)
 
 // Logout button to return to index.html
 document.getElementById("logout-btn").addEventListener("click", function () {
-    window.location.href = "index.html";
+    window.location.href = "/";
 })
 
 
@@ -119,6 +130,3 @@ function postVideo() {
     // Close the popup
     hidePopup("post-video-popup");
 }
-
-// Attach event listener to the "Post Video" button in the popup
-document.getElementById("post-video-btn").addEventListener("click", postVideo);
