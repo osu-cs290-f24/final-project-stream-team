@@ -34,8 +34,38 @@ function renderVideos(videoList) {
     });
 }
 
+// Render the five most recently added videos 
+function renderFeaturedVideos(videoList) {
+    const container = document.getElementById("featured-videos-container");
+    container.innerHTML = "";
 
+    videoList.forEach((video) => {
+        const minutes = Math.floor(video.length);
+        const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0");
 
+        const videoHTML = Handlebars.templates.video({
+            photoURL: video.thumbnail,
+            alt: video.title,
+            title: video.title,
+            name: video.poster,
+            minutes: minutes,
+            seconds: seconds,
+            index: video.originalIndex
+        });
+
+        container.insertAdjacentHTML("beforeend", videoHTML);
+    });
+
+    const videoPosts = document.querySelectorAll(".video-post");
+    videoPosts.forEach((post) => {
+        post.addEventListener("click", function () {
+            const videoId = this.getAttribute("data-id");
+            if (videoId) {
+                window.location.href = `/videos/${videoId}`;
+            }
+        });
+    });
+}
 
 
 
@@ -59,7 +89,11 @@ function loadVideos() {
             videos = data.map((video, i) => {
                 return { ...video, originalIndex: i };
             });
-            renderVideos(videos);
+            // Render and feature the five most recently added videos
+            const recentlyAddedVideos = videos.slice(-5).reverse();
+            renderFeaturedVideos(recentlyAddedVideos);
+
+            renderVideos(videos.slice(0, -5));
         })
         .catch((err) => {
             console.error("Failed to load videos:", err);

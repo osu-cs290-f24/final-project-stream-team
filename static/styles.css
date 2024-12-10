@@ -23,6 +23,10 @@ header h1 {
     margin: 0;
 }
 
+h3 {
+    font-size: 36px;
+}
+
 #home-link {
     color: white;
     text-decoration: none;
@@ -152,13 +156,13 @@ div#video-container {
     box-sizing: border-box;
 }
 
-/* .flex-container {
+.flex-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
     padding: 20px;
-} */
+}
 
 .video-post {
 

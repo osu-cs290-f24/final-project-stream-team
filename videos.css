@@ -69,6 +69,7 @@ header button {
     width: 300px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /*flex-grow: 0; /* Prevent items from stretching */
 }
 
 .video-post img {
