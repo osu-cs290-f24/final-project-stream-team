@@ -147,6 +147,12 @@ pre {
     margin-top: 10px;
 }
 
+#dropdown-menu:hover{
+    color: #37addb;
+    background-color: white;
+    transition: 0.2s;
+}
+
 div#video-container {
     display: flex;
     flex-wrap: wrap;
@@ -160,41 +166,46 @@ div#video-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
+    justify-content: flex-start; /* Align items to the start of the container */
     padding: 20px;
-}
-
-.video-post {
-
+    flex-direction: row;
+ }
+ 
+ 
+ .video-post {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 15px;
-    width: 300px;
+    width: calc(25% - 20px); /*this makes four videos in a row, the -20 is the borders*/
     height: 350px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-}
-
-.video-post:hover {
+    overflow: hidden;
+ }
+ 
+ 
+ .video-post:hover {
     background-color: #eeeeee;
     transform: scale(1.05);
     cursor: pointer;
-}
-
-/* .post-img {
+ }
+ 
+ 
+ /* .post-img {
     height: 50px;
-} */
-
-.video-post img {
-
-    width: 268px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 5px;
-
-}
+ } */
+ 
+ 
+ .video-post img {
+    width: 100%;
+    max-height: 200px;
+    height: auto;
+    border-radius: 10px;
+    object-fit:cover;
+ }
+ 
 
 .video-post h3 {
     margin: 10px 0;
@@ -257,6 +268,11 @@ div#video-container {
 }
 
 #dark-mode-toggle {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+#dark-mode-toggle:hover {
     background-color: black;
     color: white;
 }
@@ -330,4 +346,36 @@ body.dark-mode #post-video-popup button#close-post-video-btn {
 
 body, .video-post, header, button {
     transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode #search-btn {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+.dark-mode #search-btn:hover {
+    background-color: #555555;
+    color: #ffffff;
+}
+
+.dark-mode #dark-mode-toggle {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+.dark-mode #dark-mode-toggle:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.dark-mode #dropdown-menu{
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+.dark-mode #dropdown-menu:hover{
+    background-color: #555555;
+    color: #ffffff;
 }
