@@ -239,3 +239,30 @@ document.getElementById("dropdown-menu").addEventListener("change", function () 
 
     renderVideos(sortedVideos)
 })
+
+/* Switch between light and dark mode */
+
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+const postVideoButton = document.getElementById('post-video-open-btn');
+
+// Check localStorage for saved preference
+const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    postVideoButton.classList.add('dark-mode');
+    darkModeToggle.textContent = 'Light Mode';
+}
+
+darkModeToggle.addEventListener('click', () => {
+    const isDarkModeEnabled = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', isDarkModeEnabled); // Save preference
+
+    if (isDarkModeEnabled) {
+        postVideoButton.classList.add('dark-mode');
+    } else {
+        postVideoButton.classList.remove('dark-mode');
+    }
+
+    darkModeToggle.textContent = isDarkModeEnabled ? 'Light Mode' : 'Dark Mode';
+});

@@ -256,6 +256,11 @@ div#video-container {
     color: white;
 }
 
+#dark-mode-toggle {
+    background-color: black;
+    color: white;
+}
+
 /* 404 Page Styles */
 h2 {
     display: block;
@@ -272,4 +277,57 @@ p {
 
 a {
     text-align: center;
+}
+
+/* Dark mode styles */
+
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+header.dark-mode {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .flex-container {
+    background-color: #121212;
+}
+
+body.dark-mode .flex-container .video-post {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #333333;
+}
+
+body.dark-mode #post-video-open-btn {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+body.dark-mode #post-video-open-btn:hover {
+    background-color: #555555;
+    color: #ffffff;
+}
+
+body.dark-mode #post-video-popup {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+body.dark-mode #post-video-popup input {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+body.dark-mode #post-video-popup button#close-post-video-btn {
+    background-color: #c71e12;
+    color: #ffffff;
+}
+
+body, .video-post, header, button {
+    transition: background-color 0.3s, color 0.3s;
 }
