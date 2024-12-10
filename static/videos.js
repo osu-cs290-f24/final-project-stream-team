@@ -1,6 +1,6 @@
 let videos = [];
 
-// Render videos dynamically
+//render videos dynamically
 function renderVideos(videoList) {
     const container = document.getElementById("video-container");
     container.innerHTML = "";
@@ -9,7 +9,7 @@ function renderVideos(videoList) {
         const minutes = Math.floor(video.length);
         const seconds = Math.round((video.length - minutes) * 60).toString().padStart(2, "0");
 
-        // Use the video's originalIndex to maintain a stable ID
+        //use the video's originalIndex to maintain a stable ID
         const videoHTML = Handlebars.templates.video({
             photoURL: video.thumbnail,
             alt: video.title,
@@ -39,7 +39,7 @@ function renderVideos(videoList) {
 
 
 
-// Format video length as MM:SS
+//formats video length as MM:SS
 function formatVideoLength(videoLength) {
     const minutes = Math.floor(videoLength);
     const seconds = Math.round((videoLength - minutes) * 60).toString().padStart(2, "0");
@@ -47,7 +47,7 @@ function formatVideoLength(videoLength) {
 }
 
 
-// Fetch videos from the server
+//fetche videos from the server
 function loadVideos() {
     fetch("/videos-data")
         .then((response) => {
@@ -68,7 +68,7 @@ function loadVideos() {
 
 
 
-// Post a new video
+//post a new video
 function postVideo() {
     const title = document.getElementById("video-title").value.trim();
     const poster = document.getElementById("video-poster").value.trim();
@@ -102,13 +102,11 @@ function postVideo() {
             console.log(data.message);
             alert("Video posted successfully!");
 
-            // Check if we are on the main page with a gallery
             if (window.location.pathname === "/videos") {
                 videos.push(newVideo);
                 renderVideos(videos);
             }
 
-            // Clear form fields and close the popup
             document.getElementById("video-title").value = "";
             document.getElementById("video-poster").value = "";
             document.getElementById("video-thumbnail").value = "";
@@ -122,21 +120,21 @@ function postVideo() {
 }
 
 
-// Search videos by title or author
+//search videos by title or author
 document.getElementById("search-btn").addEventListener("click", function () {
     const query = document.getElementById("search-input").value.toLowerCase();
     const filteredVideos = videos.filter((video) =>
         video.title.toLowerCase().includes(query) ||
         video.poster.toLowerCase().includes(query)
     );
-    renderVideos(filteredVideos); // This properly clears and re-renders filtered videos
+    renderVideos(filteredVideos); //this properly clears and re-renders filtered videos
 });
 
 
-// Load videos on page load
+//load videos on page load
 window.addEventListener("load", loadVideos)
 
-// Logout button to return to index.html
+//logout button to return to index.html
 document.getElementById("logout-btn").addEventListener("click", function () {
     window.location.href = "/";
 })
@@ -150,25 +148,17 @@ function hidePopup(popupId) {
     document.getElementById(popupId).hidden = true;
 }
 
-// Show the "Post Video" popup
+//show the "Post Video" popup
 document.getElementById("post-video-open-btn").addEventListener("click", function () {
     showPopup("post-video-popup");
 });
 
-// Close the "Post Video" popup
+//close the "Post Video" popup
 document.getElementById("close-post-video-btn").addEventListener("click", function () {
     hidePopup("post-video-popup");
 });
 
-//Post a new video Event Listener
+//post a new video Event Listener
 document.getElementById("post-video-btn").addEventListener("click", postVideo)
 
-/*const videoPosts = container.getElementsByClassName('video-post');
-Array.from(videoPosts).forEach(videoPost => {
-    videoPost.addEventListener('click', function () {
-        const videoId = this.getAttribute('data-video-id');
-        window.location.href = `/ videos / 1
-    }`;
-    });
-});*/
 

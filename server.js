@@ -48,7 +48,7 @@ app.get('/videos-data', function (req, res) {
         }
 
         const videos = JSON.parse(data);
-        res.json(videos); // Send video data as JSON
+        res.json(videos); //send video data as JSON
     })
 })
 
@@ -72,7 +72,7 @@ app.get('/videos', function (req, res) {
 })
 
 
-// get single page video and reccomendations
+//get single page video and reccomendations
 app.get('/videos/:n', function (req, res) {
     const filePath = path.join(__dirname, 'static/videos.json');
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -86,13 +86,13 @@ app.get('/videos/:n', function (req, res) {
         const vidNum = parseInt(req.params.n, 10);
 
 
-        // Validate that the requested video index is valid
+        //validate that the requested video index is valid
         if (vidNum >= 0 && vidNum < videos.length) {
             const video = videos[vidNum];
 
             video.originalIndex = vidNum;
 
-            // Add calculated fields to the video
+            //add calculated fields to the video
             const videoLength = video.length;
             const minutes = Math.floor(videoLength);
             const seconds = Math.round((videoLength - minutes) * 60).toString().padStart(2, "0");
@@ -101,13 +101,13 @@ app.get('/videos/:n', function (req, res) {
             video.name = video.poster
             video.photoURL = video.thumbnail;
 
-            // Generate a list of recommended videos
+            //generate a list of recommended videos
             const videoList = [];
             for (let i = 1; i <= 2; i++) {
                 const nextIndex = (vidNum + i) % videos.length;
                 const recommendedVideo = { ...videos[nextIndex] };
 
-                // Calculate and add minutes/seconds for recommended videos
+                //calculate and add minutes/seconds for recommended videos
                 const recommendedLength = recommendedVideo.length;
                 const recommendedMinutes = Math.floor(recommendedLength);
                 const recommendedSeconds = Math.round((recommendedLength - recommendedMinutes) * 60).toString().padStart(2, "0");
@@ -119,7 +119,7 @@ app.get('/videos/:n', function (req, res) {
                 videoList.push(recommendedVideo);
             }
 
-            // Render the singleVid template with the selected video and recommendations
+            // render the singleVid template with the selected video and recommendations
             res.render('singleVid', {
                 title: video.title,
                 css: '/single_video.css',
@@ -148,12 +148,12 @@ app.get('/users-data', function (req, res) {
         }
 
         const users = JSON.parse(data);
-        res.json(users); // Send user data as JSON
+        res.json(users); // send user data as JSON
     });
 });
 
 
-// Add POST endpoint to save new users
+//add POST endpoint to save new users
 app.post('/add-user', function (req, res) {
     const newUser = req.body; // Extract user data from request body
     const filePath = path.join(__dirname, 'static/users.json')
@@ -188,9 +188,9 @@ app.post('/add-user', function (req, res) {
     })
 })
 
-// New POST route to save videos
+//new POST route to save videos
 app.post('/add-video', function (req, res) {
-    const newVideo = req.body // Extract video data from request body
+    const newVideo = req.body //extract video data from request body
     const filePath = path.join(__dirname, 'static/videos.json')
 
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -200,11 +200,11 @@ app.post('/add-video', function (req, res) {
             return
         }
 
-        // Parse existing videos and add the new video
+        //parse existing videos and add the new video
         let videos = JSON.parse(data)
         videos.push(newVideo)
 
-        // Write the updated videos array back to the file
+        //write the updated videos array back to the file
         fs.writeFile(filePath, JSON.stringify(videos, null, 2), (err) => {
             if (err) {
                 console.error("Error writing JSON file:", err);
@@ -233,7 +233,7 @@ app.delete('/videos/:n', function (req, res) {
             return res.status(404).json({ error: "Video not found." });
         }
 
-        // Remove the video at vidNum
+        //remove the video at vidNum
         videos.splice(vidNum, 1);
 
         fs.writeFile(filePath, JSON.stringify(videos, null, 2), (writeErr) => {

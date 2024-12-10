@@ -9,7 +9,6 @@ function hidePopup(popupId) {
     document.getElementById(popupId).hidden = true;
 }
 
-// Event listener for login
 document.getElementById("login-btn").addEventListener("click", function (event) {
     event.preventDefault();
 
@@ -22,14 +21,12 @@ document.getElementById("login-btn").addEventListener("click", function (event) 
 
     if (user) {
         alert(`Welcome, ${user.first_name} ${user.last_name}!`);
-        // Redirect to videos page
         window.location.href = "/videos";
     } else {
         alert("Invalid username or password.");
     }
 });
 
-// Event listener for help popup
 document.getElementById("help-btn").addEventListener("click", function (event) {
     event.preventDefault(); // Prevent form submission
 
@@ -45,7 +42,6 @@ document.getElementById("close-help-btn").addEventListener("click", function () 
     hidePopup("help-popup");
 });
 
-// Event listener for create account popup
 document.getElementById("create-account-btn").addEventListener("click", function (event) {
     event.preventDefault();
     showPopup("create-account-popup");
@@ -56,7 +52,6 @@ document.getElementById("close-create-account-btn").addEventListener("click", fu
     hidePopup("create-account-popup");
 });
 
-// Event listener for saving a new account
 document.getElementById("save-account-btn").addEventListener("click", function (event) {
     event.preventDefault();
 
@@ -100,7 +95,6 @@ document.getElementById("save-account-btn").addEventListener("click", function (
     }
 });
 
-// Fetch user data on page load
 function loadUsers() {
     fetch('/users-data')
         .then(response => {
@@ -119,10 +113,8 @@ function loadUsers() {
 }
 
 
-// Call loadUsers on page load
 window.addEventListener("load", loadUsers);
 
-// Event listener for login
 document.getElementById("login-btn").addEventListener("click", function (event) {
     event.preventDefault();
 
@@ -135,7 +127,6 @@ document.getElementById("login-btn").addEventListener("click", function (event) 
 
     if (user) {
         alert(`Welcome, ${user.first_name} ${user.last_name}!`);
-        // Redirect to videos page
         window.location.href = "/videos";
     } else {
         alert("Invalid username or password.");

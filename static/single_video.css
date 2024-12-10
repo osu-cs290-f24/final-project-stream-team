@@ -1,4 +1,4 @@
-/* Global Styles */
+
 body {
     font-family: Roboto, sans-serif;
     margin: 0;
@@ -99,7 +99,6 @@ pre {
     display: none;
 }
 
-/* Videos Page Styles */
 #search-bar {
     margin: 20px auto;
     text-align: center;
@@ -141,24 +140,18 @@ main {
 
 #main-container {
     display: flex;
-    /* Set flexbox for horizontal alignment */
     justify-content: space-between;
-    /* Space between main video and recommendations */
     align-items: flex-start;
-    /* Align items at the top */
     margin: 20px auto;
-    /* Center the layout */
     width: 90%;
-    /* Adjust the width to fit the content */
     gap: 20px;
-    /* Add spacing between main video and recommendations */
 }
 
 #main-vid {
     flex: 3;
-    /* Main video takes 3 parts of the available space */
     background-color: white;
     border-radius: 10px;
+    margin-top: 0;
     padding: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -199,7 +192,7 @@ main {
 }
 
 #other-videos {
-    flex: 1;
+    flex: 1.13;
     width: 30%;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -255,7 +248,6 @@ main {
     border-radius: 5px;
 }
 
-/* Styling for titles inside recommended videos */
 .rec-video-post h3 {
     margin: 10px 0;
     font-size: 1em;
@@ -263,8 +255,6 @@ main {
     color: #333;
 }
 
-
-/* Post Video Popup */
 #post-video-popup {
     position: fixed;
     top: 50%;
