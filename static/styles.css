@@ -132,6 +132,17 @@ pre {
     font-size: 75%;
 }
 
+#dropdown-menu{
+    height: 37px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #37addb;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
 div#video-container {
     display: flex;
     flex-wrap: wrap;

@@ -161,4 +161,47 @@ document.getElementById("close-post-video-btn").addEventListener("click", functi
 //post a new video Event Listener
 document.getElementById("post-video-btn").addEventListener("click", postVideo)
 
+document.getElementById("dropdown-menu").addEventListener("change", function () {
+    const selectedOption = this.value
 
+    let sortedVideos = videos.slice() //makes copy
+
+    if (selectedOption === "Author: A-Z") {
+        for (let i = 0; i < sortedVideos.length - 1; i++) {
+            for (let j = i + 1; j < sortedVideos.length; j++) {
+                if (sortedVideos[i].poster > sortedVideos[j].poster) {
+                    let temp = sortedVideos[i]
+                    sortedVideos[i] = sortedVideos[j]
+                    sortedVideos[j] = temp
+                }
+            }
+        }
+    } 
+    else if (selectedOption === "Title: A-Z") {
+        for (let i = 0; i < sortedVideos.length - 1; i++) {
+            for (let j = i + 1; j < sortedVideos.length; j++) {
+                if (sortedVideos[i].title > sortedVideos[j].title) {
+                    let temp = sortedVideos[i]
+                    sortedVideos[i] = sortedVideos[j]
+                    sortedVideos[j] = temp
+                }
+            }
+        }
+    } 
+    else if (selectedOption === "Length: Shortest") {
+        for (let i = 0; i < sortedVideos.length - 1; i++) {
+            for (let j = i + 1; j < sortedVideos.length; j++) {
+                if (sortedVideos[i].length > sortedVideos[j].length) {
+                    let temp = sortedVideos[i]
+                    sortedVideos[i] = sortedVideos[j]
+                    sortedVideos[j] = temp
+                }
+            }
+        }
+    } 
+    else {
+        sortedVideos = videos.slice()
+    }
+
+    renderVideos(sortedVideos)
+})
