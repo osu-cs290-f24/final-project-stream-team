@@ -93,7 +93,7 @@ function loadVideos() {
             const recentlyAddedVideos = videos.slice(-5).reverse();
             renderFeaturedVideos(recentlyAddedVideos);
 
-            renderVideos(videos.slice(0, -5));
+            renderVideos(videos);
         })
         .catch((err) => {
             console.error("Failed to load videos:", err);
