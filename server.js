@@ -85,9 +85,12 @@ app.get('/videos/:n', function (req, res) {
         const videos = JSON.parse(data);
         const vidNum = parseInt(req.params.n, 10);
 
+
         // Validate that the requested video index is valid
         if (vidNum >= 0 && vidNum < videos.length) {
             const video = videos[vidNum];
+
+            video.originalIndex = vidNum;
 
             // Add calculated fields to the video
             const videoLength = video.length;
@@ -214,6 +217,37 @@ app.post('/add-video', function (req, res) {
         })
     })
 })
+
+app.delete('/videos/:n', function (req, res) {
+    const filePath = path.join(__dirname, 'static/videos.json');
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error("Error reading JSON file:", err);
+            return res.status(500).json({ error: "Failed to read video data." });
+        }
+
+        let videos = JSON.parse(data);
+        const vidNum = parseInt(req.params.n, 10);
+
+        if (vidNum < 0 || vidNum >= videos.length) {
+            return res.status(404).json({ error: "Video not found." });
+        }
+
+        // Remove the video at vidNum
+        videos.splice(vidNum, 1);
+
+        fs.writeFile(filePath, JSON.stringify(videos, null, 2), (writeErr) => {
+            if (writeErr) {
+                console.error("Error writing JSON file:", writeErr);
+                return res.status(500).json({ error: "Failed to delete video." });
+            }
+
+            console.log(`Video at index ${vidNum} deleted.`);
+            res.status(200).json({ message: "Video deleted successfully!" });
+        });
+    });
+});
+
 
 app.get('*', function (req, res) {
     res.status(404).render('404', {
